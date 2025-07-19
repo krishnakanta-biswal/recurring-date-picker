@@ -1,16 +1,23 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.input-date, .input-text, select {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+  max-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
-
-input[type="date"],
-select {
-  @apply border rounded px-2 py-1;
+.btn-green {
+  background-color: #22c55e;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
 }
-
-button {
-  @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;
-}
-
-.preview-calendar {
-  @apply mt-4 p-4 bg-gray-100 rounded text-sm;
+.btn-red {
+  background-color: #ef4444;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  margin-left: 10px;
 }
