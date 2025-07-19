@@ -1,33 +1,34 @@
-import { generateRecurringDates } from './recurringPicker.js';
+document.getElementById("save-btn").addEventListener("click", () => {
+  const startDate = document.getElementById("start-date").value;
+  const endDate = document.getElementById("end-date").value;
+  const interval = parseInt(document.getElementById("interval").value);
+  const frequency = document.getElementById("frequency").value;
+  const pattern = document.getElementById("monthly-pattern").value;
 
-const startInput = document.getElementById('start-date');
-const endInput = document.getElementById('end-date');
-const repeatType = document.getElementById('repeat-type');
-const intervalInput = document.getElementById('interval');
-const weekdaysCheckboxes = document.querySelectorAll('#weekdays input[type="checkbox"]');
-const saveBtn = document.getElementById('save-btn');
-const previewDiv = document.getElementById('preview-dates');
+  const weekdays = Array.from(document.querySelectorAll("input[type=checkbox]:checked"))
+    .map(cb => parseInt(cb.value));
 
-saveBtn.addEventListener('click', () => {
-  const startDate = startInput.value;
-  const endDate = endInput.value;
-  const repeat = repeatType.value;
-  const interval = parseInt(intervalInput.value) || 1;
+  if (!startDate) return alert("Please select start date");
 
-  const selectedWeekdays = Array.from(weekdaysCheckboxes)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => parseInt(checkbox.value));
+  const recurringDates = generateRecurringDates(startDate, endDate, interval, frequency, weekdays, pattern);
 
-  if (!startDate) {
-    alert('Please select a start date.');
-    return;
-  }
+  const ul = document.getElementById("preview-list");
+  ul.innerHTML = "";
+  recurringDates.forEach(date => {
+    const li = document.createElement("li");
+    li.textContent = date;
+    ul.appendChild(li);
+  });
 
-  const result = generateRecurringDates(startDate, endDate, repeat, interval, selectedWeekdays);
+  alert("Recurring pattern saved!");
+});
 
-  if (result.length === 0) {
-    previewDiv.innerText = 'No recurring dates found.';
-  } else {
-    previewDiv.innerHTML = result.map(date => date.toDateString()).join('<br>');
-  }
+document.getElementById("clear-btn").addEventListener("click", () => {
+  document.getElementById("start-date").value = "";
+  document.getElementById("end-date").value = "";
+  document.getElementById("interval").value = 1;
+  document.getElementById("frequency").value = "Day(s)";
+  document.getElementById("monthly-pattern").value = "";
+  document.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = false);
+  document.getElementById("preview-list").innerHTML = "";
 });
